@@ -33,22 +33,23 @@ class SLinkedList:
             self.head = newNode
             self.tail = newNode
         else:
-            if location == 0:
-                newNode.next = self.head
-                self.head = newNode
-            elif location == -1:
-                self.tail.next = newNode
-                self.tail = newNode
+            self.front = self.head
+            self.behind = None
+            counter = 0
+
+            while self.front is not None and location > counter:
+                counter +=1
+                self.behind = self.front
+                self.front = self.front.next
+            if self.behind is not None:
+                newNode.next = self.behind.next
+                self.behind.next= newNode
             else:
-                counter = 0
-                temp_back = self.head
-                while counter < location-1:
-                    temp_back = temp_back.next
-                    counter +=1
-                #create new pointer
-                temp_front = temp_back.next
-                temp_back.next = newNode
-                newNode.next =temp_front
+                newNode.next  = self.head
+                self.head = newNode
+            if self.front is None:
+                self.tail = newNode
+
 
     def showvalues(self):
         temp = self.head
@@ -58,11 +59,13 @@ class SLinkedList:
 def main():
 
     list = SLinkedList()
+    list.insertend(0)
+    list.insertend(1)
     list.insertend(2)
     list.insertend(3)
-    list.insertfront(1)
-    print("Please enter location you wish to insert node")
-    print ("-1 = at the end of LInked list \n 0 - At the front of Linklist")
+    list.insertend(4)
+
+
     location = int(input("Enter your choice:"))
     value = int(input("Value:"))
     list.insertatlocation(value,location)
